@@ -16,7 +16,7 @@ from torch.utils.data import Dataset, TensorDataset
 import matplotlib.pyplot as plt
 from torchvision.datasets.mnist import MNIST
 from experiments.deepfool import deepfool
-from experiments.fashion_mnist_torch.model import (
+from experiments.mnist_torch.model import (
     get_accuracy,
     get_model,
     load_model,
@@ -588,7 +588,7 @@ def robustness(dataset, model):
     return p_adv / total
 
 
-class DisgustingHelperObj:
+class HelperObj:
     def __init__(self, model):
         self.model = model
 
@@ -607,7 +607,7 @@ def robustness_lower_bound(dataset, model, n_workers=2):
     total = 0
     p_adv = 0
 
-    call_obj = DisgustingHelperObj(model)
+    call_obj = HelperObj(model)
 
     list_images = []
 
@@ -979,8 +979,8 @@ def run():
     # train_set = random_subset(train_set, subset_size=1000, n_items=len(train_set))
     num_epochs = 2
 
-    # name = f"mnist-{datetime.now().isoformat()}"
-    name = "mnist-2022-02-24T12:57:25.286970"
+    name = f"mnist-{datetime.now().isoformat()}"
+    # name = "mnist-2022-02-24T12:57:25.286970"
     # name = "target"
 
     model, test_acc, train_loss, iters = get_model(
@@ -991,8 +991,8 @@ def run():
         num_epochs=num_epochs,
     )
 
-    # plot_random_samples(train_set, name=name)
-    # figure_out_brightness_thingy(train_set, name=name)
+    plot_random_samples(train_set, name=name)
+    figure_out_brightness_thingy(train_set, name=name)
 
     plot_performance(name=name, model_name="model")
 
@@ -1001,25 +1001,25 @@ def run():
     # img = train_set[df_index][0]
     # lower_bound(model=model, k=predict_from_image(img, model), x=img.view(-1))
 
-    # experiment_deepfool_single_image(
-    # train_set, name=name, model_name="model", index=df_index
-    # )
-    # experiment_filters_to_cifar10(name=name)
-    # experiment_deepfool_filter_single_image(train_set, name=name, model_name="model")
-    # experiment_deepfool_jpeg_single_image(train_set, name=name, model_name="model")
+    experiment_deepfool_single_image(
+        train_set, name=name, model_name="model", index=df_index
+    )
+    experiment_filters_to_cifar10(name=name)
+    experiment_deepfool_filter_single_image(train_set, name=name, model_name="model")
+    experiment_deepfool_jpeg_single_image(train_set, name=name, model_name="model")
     experiment_deepfool_filter_fooling_rate(train_set, name=name, model_name="model")
-    # test_lower_bound(dataset=test_set, name=name)
-    # experiment_minimal_pert_bounds_single_image(dataset=train_set, name=name)
-    # experiment_robustness_lower_bound(train_set=train_set, name=name)
-    # experiment_deepfool_robustness(
-    # train_set,
-    # test_set,
-    # name=name,
-    # n_iters=8,
-    # model_name="model",
-    # lower_bound_subset_size=10,
-    # always_run=False,
-    # )
-    # experiment_robustness_both_bounds(train_set, name=name)
+    test_lower_bound(dataset=test_set, name=name)
+    experiment_minimal_pert_bounds_single_image(dataset=train_set, name=name)
+    experiment_robustness_lower_bound(train_set=train_set, name=name)
+    experiment_deepfool_robustness(
+        train_set,
+        test_set,
+        name=name,
+        n_iters=8,
+        model_name="model",
+        lower_bound_subset_size=10,
+        always_run=False,
+    )
+    experiment_robustness_both_bounds(train_set, name=name)
     # run_deepfool_misc_matrix_experiment(train_set, model)
     # run_universal_perturbation_experiment(test_set, model)

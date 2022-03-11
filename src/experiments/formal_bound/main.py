@@ -5,7 +5,7 @@ from typing import Iterable
 
 import torch
 from torch.functional import Tensor
-from experiments.fashion_mnist_torch.model import FashionNN
+from experiments.mnist_torch.model import FashionNN
 
 
 class State:

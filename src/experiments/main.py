@@ -1,5 +1,4 @@
-import fashion_mnist_torch
-import formal_bound_sympy
+import mnist_torch
 import logging
 from torch.multiprocessing import set_start_method
 
@@ -12,5 +11,4 @@ if __name__ == "__main__":
 
     set_start_method("spawn")
 
-    fashion_mnist_torch.run()
-    # formal_bound_sympy.run()
+    mnist_torch.run()
